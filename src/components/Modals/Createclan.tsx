@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React from "react";
 import Modal from "./Modal";
 import useClanModal from "@/hooks/useClanModal";
 import { Clan, User } from "@/common.types";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsFillImageFill } from "react-icons/bs";
+import { API_URI } from "@/Utils/variables";
 
 export default function Createclan({
   user,
@@ -23,9 +24,38 @@ export default function Createclan({
     formState: { errors },
   } = useForm<FieldValues>();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     clanModal.onClose();
+    // Upload image
+    let formData: string | null = null;
+    if (clanImage) {
+      const formData = new FormData();
+      formData.append("file", clanImage);
+      formData.append("upload_preset", "clan");
+    }
+
+    const newData = {
+      name: data.clanName,
+      tag: data.clanTag,
+      desc: data.clanDescription,
+      image: formData,
+      owner: user.id,
+      lang: data.clanLanguage,
+      members: [`${user.id}`],
+      status: data.clanType === "private" ? true : false,
+      verified: false,
+      max: 32,
+      application: [],
+      cost: totalCost,
+    };
+
+    await fetch("/api/actions/clans", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "create",
+        data: newData,
+      }),
+    });
   };
 
   const bodyContent = (
@@ -39,7 +69,7 @@ export default function Createclan({
             className="hidden"
             onChange={(e) => {
               setClanImage(e.target.files![0]);
-              console.log(URL.createObjectURL(e.target.files![0]));
+              console.log(`clanImage`, URL.createObjectURL(e.target.files![0]));
             }}
             accept="image/png, image/jpeg, image/jpg, image/webp"
           />

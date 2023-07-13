@@ -18,40 +18,6 @@ export type Clan = {
   applications: string[];
 };
 
-export type User = {
-  avatar: string;
-  badges: object;
-  banned: boolean;
-  bio: string;
-  coins: number;
-  collectionId: string;
-  collectionName: string;
-  created: string;
-  display: string;
-  email: string;
-  emailVisibility: boolean;
-  id: string;
-  private: boolean;
-  role: "user" | "premium" | "streamer" | "partner" | "mod" | "admin";
-  socials: {
-    instagram: string;
-    twitter: string;
-    twitch: string;
-    youtube: string;
-  };
-  stats: {
-    defeats: number;
-    events: number;
-    tournaments: number;
-    wins: number;
-  };
-  tokens: number;
-  updated: string;
-  username: string;
-  verified: boolean;
-  country: string;
-};
-
 export type ShopItem = {
   category: string;
   collectionId: string;
@@ -97,4 +63,44 @@ export type keys = {
   product: string;
   code: string;
   cat: string;
+};
+
+export type User = {
+  avatar: string;
+  badges: Badges;
+  banned: boolean;
+  bio: string;
+  coins: number;
+  collectionID: string;
+  collectionName: string;
+  country: string;
+  created: Date;
+  display: string;
+  email: string;
+  emailVisibility: boolean;
+  id: string;
+  private: boolean;
+  role: string;
+  socials: Socials;
+  stats: Stats;
+  tokens: number;
+  updated: Date;
+  username: string;
+  verified: boolean;
+};
+
+export type Badges = {};
+
+export type Socials = {
+  instagram: string;
+  twitch: string;
+  twitter: string;
+  youtube: string;
+};
+
+export type Stats = {
+  defeats: number;
+  events: number;
+  tournaments: number;
+  wins: number;
 };
