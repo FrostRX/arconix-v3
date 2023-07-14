@@ -1,5 +1,6 @@
+import { API_URI } from "@/Utils/variables";
 import PocketBase from "pocketbase";
 
-const pb = new PocketBase("http://127.0.0.1:8090");
+const pb = new PocketBase(API_URI);
 
 export default pb;
